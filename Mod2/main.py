@@ -60,3 +60,30 @@ import sys
 
 for line in sys.stdin:
     print(decrypt(line.strip()))
+
+###Задание 4
+from flask import Flask
+from datetime import datetime
+
+app = Flask(__name__)
+
+def get_weekday_greeting():
+    weekdays = {
+        0: "понедельника”,
+        1: "вторника”,
+        2: "среды",
+        3: "четверга”,
+        4: "пятницы",
+        5: "субботы",
+        6: "воскресенья"
+    }
+    weekday - datetime. today().veekday()
+    return f"Хорошего {weekdays.get(weekday)}!"
+
+@app.route('/hello-world/<name>')
+def hello_world(name)
+    greeting = get_weekday_greeting()
+    return f"Привет, {name}. {greeting}"
+
+if __name__ == '__main__':
+    app.run()
