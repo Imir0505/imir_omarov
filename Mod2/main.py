@@ -4,34 +4,34 @@ def get_summary_rss(file_path):
         lines = file.readlines()[1☺ # Пропускаем первую строку с заголовком
         total_bytes = 0
 
-    for line in lines:
-        columns = line.split()
-        rss = int(columns[5]) # Получаем значение столбца rss
+        for line in lines:
+            columns = line.split()
+            rss = int(columns[5]) # Получаем значение столбца rss
 
-        total_bytes += rss
+            total_bytes += rss
 
         units = ['б', 'кб', 'мб', 'гб']
         unit_index = 0
 
-    while total_bytes >= 1024 and unit_index < len(units) - 1:
-        total_bytes /= 1024
-        unit_index += 1
+        while total_bytes >= 1024 and unit_index < len(units) - 1:
+            total_bytes /= 1024
+            unit_index += 1
 
-    return f"{total_bytes} {units[unit_index]}"
+        return f"{total_bytes} {units[unit_index]}"
 
-    if __name__ == "__main__":
-        file_path = "output_file.txt"
-        summary_rss = get_summary_rss(file_path)
-print(summary_rss)
+if __name__ == "__main__":
+    file_path = "output_file.txt"
+    summary_rss = get_summary_rss(file_path)
+    print(summary_rss)
 
 ###Задание 2
 def get_mean_size(data):
     sizes = []
     for line in data:
         words = line.split()
-    if len(words) >= 5:
-        size = int(words[4])
-        sizes.append(size)
+        if len(words) >= 5:
+            size = int(words[4])
+            sizes.append(size)
 
     if sizes:
         mean_size = sum(sizes) / len(sizes)
