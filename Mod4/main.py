@@ -38,11 +38,11 @@ class NumberLength:
         self.max_length = max_length
         self.message = message
 
-def __call__(self, form, field):
-    if self.min_length is not None and len(str(field.data)) < self.min_length:
-        raise ValidationError(self.message or f'Field must be at least {self.min_length} digits')
-    if self.max_length is not None and len(str(field.data)) > self.max_length:
-        raise ValidationError(self.message or f'Field cannot exceed {self.max_length} digits')
+    def __call__(self, form, field):
+        if self.min_length is not None and len(str(field.data)) < self.min_length:
+            raise ValidationError(self.message or f'Field must be at least {self.min_length} digits')
+        if self.max_length is not None and len(str(field.data)) > self.max_length:
+            raise ValidationError(self.message or f'Field cannot exceed {self.max_length} digits')
 
 class Number(FlaskForm):
     phone = IntegerField('Phone', validators=[InputRequired(), NumberLength(min_length=5, max_length=10, message='Invalid phone number')])
@@ -56,25 +56,25 @@ class RegistrationTestCase(unittest.TestCase):
     def setUp(self):
         self.app = app.test_client() # Инициализируем тестовый клиент приложения
 
-def test_username_validator_pass(self):
-    response = self.app.post('/registration', data={'username': 'valid_username'})
-    self.assertEqual(response.status_code, 200) # Проверяем, что ответ сервера имеет статус 200
-    self.assertIn(b'Success', response.data) # Проверяем наличие сообщения об успехе
+    def test_username_validator_pass(self):
+        response = self.app.post('/registration', data={'username': 'valid_username'})
+        self.assertEqual(response.status_code, 200) # Проверяем, что ответ сервера имеет статус 200
+        self.assertIn(b'Success', response.data) # Проверяем наличие сообщения об успехе
 
-def test_username_validator_fail(self):
-    response = self.app.post('/registration', data={'username': 'invalid username'})
-    self.assertEqual(response.status_code, 400) # Проверяем, что ответ сервера имеет статус 400
-    self.assertIn(b'Invalid username', response.data) # Проверяем наличие сообщения об ошибке
+    def test_username_validator_fail(self):
+        response = self.app.post('/registration', data={'username': 'invalid username'})
+        self.assertEqual(response.status_code, 400) # Проверяем, что ответ сервера имеет статус 400
+        self.assertIn(b'Invalid username', response.data) # Проверяем наличие сообщения об ошибке
 
-def test_email_validator_pass(self):
-    response = self.app.post('/registration', data={'email': 'valid_email@example.com'})
-    self.assertEqual(response.status_code, 200)
-    self.assertIn(b'Success', response.data)
+    def test_email_validator_pass(self):
+        response = self.app.post('/registration', data={'email': 'valid_email@example.com'})
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'Success', response.data)
 
-def test_email_validator_fail(self):
-    response = self.app.post('/registration', data={'email': 'invalidemail'})
-    self.assertEqual(response.status_code, 400)
-    self.assertIn(b'Invalid email', response.data)
+    def test_email_validator_fail(self):
+        response = self.app.post('/registration', data={'email': 'invalidemail'})
+        self.assertEqual(response.status_code, 400)
+        self.assertIn(b'Invalid email', response.data)
 
 if __name__ == '__main__':
     unittest.main()
