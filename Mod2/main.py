@@ -89,8 +89,6 @@ if __name__ == '__main__':
     app.run()
 
 ###Задание 5
-
-
 from flask import Flask
 
 app = Flask (__name__)
@@ -107,6 +105,27 @@ def max_number (number_string):
     max_num = max(numbers)
 
     return f"Максимальное переданное число: {max_num}"
+
+if __name__ == '__main__':
+    app.run()
+
+###Задание 6
+from fask import Flask, request, render_template
+import os
+
+app = Flask(__name__)
+
+@app.route('/preview/<int:size>/<path:relative_path>')
+def file_preview(size, relative_path):
+    # Получаем абсолютный путь до файла
+    abs_path = os.path.abspath(relative_path)
+
+    # Читаем первые size символов из файла
+    with open (abs_path, 'r') as file:
+        content = file.read(size)
+        content_size = len(content)
+
+    return render_template('preview.html', abs_path=abs_path, content_size=content_size, content=content)
 
 if __name__ == '__main__':
     app.run()
