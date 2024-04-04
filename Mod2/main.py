@@ -87,3 +87,28 @@ def hello_world(name)
 
 if __name__ == '__main__':
     app.run()
+
+###Задание 5
+
+import shlex
+import subprocess
+from flask import Flask, request
+
+app = Flask(__name__)
+
+@app.route('/ps')
+def get_ps():
+    args = request.args.getlist('arg') # Получаем аргументы командной строки из GET-зaпpoca
+
+    command = ['ps'] + args
+    clean_command = shlex.quote(' '.join(command))
+
+    result = subprocess.run(command, capture_output=True, text=True)
+    output = result.stdout.strip() 
+
+    formatted_output = f"<pre>{output}</pre>"
+
+    return formatted_output
+
+if __name__ == '__main__':
+    app.run()
