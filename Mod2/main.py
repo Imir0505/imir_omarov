@@ -90,3 +90,23 @@ if __name__ == '__main__':
 
 ###Задание 5
 
+
+from flask import Flask
+
+app = Flask (__name__)
+
+@app.route('/max_number/<path:number_string>')
+def max_number (number_string):
+    numbers = number_string.split('/')
+    # Проверка на то, что все элементы являются числами
+    try:
+        numbers = [int(num) for num in numbers]
+    except ValueError:
+        return "Ошибка: переданы не числа"
+        
+    max_num = max(numbers)
+
+    return f"Максимальное переданное число: {max_num}"
+
+if __name__ == '__main__':
+    app.run()
