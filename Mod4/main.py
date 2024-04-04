@@ -10,6 +10,7 @@ class RegistrationForm(FlaskForm):
     address = StringField('Address', validators=[InputRequired()])
     index = IntegerField('Index', validators=[InputRequired()])
     comment = StringField('Comment')
+    
 ###Задание 2 Валидаторы. Создание
 ###1 вариант Использование валидатора на основе функций
 from flask_wtf import FlaskForm
@@ -90,6 +91,30 @@ def get_uptime():
     result = subprocess.run(['uptime'], capture_output=True, text=True)
     uptime = result.stdout.strip() # Получаем только значение uptime без лишней информации
     return f"current uptime is {uptime}"
+
+if __name__ == '__main__':
+    app.run()
+
+###Задание 5
+import shlex
+import subprocess
+from flask import Flask, request
+
+app = Flask(__name__)
+
+@app.route('/ps')
+def get_ps():
+    args = request.args.getlist('arg') # Получаем аргументы командной строки из GET-зaпpoca
+
+    command = ['ps'] + args
+    clean_command = shlex.quote(' '.join(command))
+
+    result = subprocess.run(command, capture_output=True, text=True)
+    output = result.stdout.strip() 
+
+    formatted_output = f"<pre>{output}</pre>"
+
+    return formatted_output
 
 if __name__ == '__main__':
     app.run()
