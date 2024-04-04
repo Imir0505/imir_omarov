@@ -77,7 +77,7 @@ def get_weekday_greeting():
         5: "субботы",
         6: "воскресенья"
     }
-    weekday - datetime. today().veekday()
+    weekday = datetime.today().weekday()
     return f"Хорошего {weekdays.get(weekday)}!"
 
 @app.route('/hello-world/<name>')
