@@ -1,85 +1,270 @@
-### Задание 1-2
-import getpass
-import hashlib
+### Задание 1
 import logging
-import re
 
-logger = logging.getLogger("password_checker")
+def Calculate():
+    s = input("Знак (+,-,*,/): ")
+    logger.info(f"Считан знак операции: {s}")
+    if s in ('+', '-', '*', '/'):
+        x = float(input("x = "))
+        logger.info(f"Считано первое число: {x}")
+        y = float(input("y = "))
+        logger.info(f"Считано второе число: {y}")
+        if s == '+':
+            print("%.2f" % (x+y))
+            logger.info("Выполнилось сложение чисел")
+        elif s == '-':
+            print("%.2f" % (x-y))
+            logger.info("Выполнилось вычитание чисел")
+        elif s == '*':
+            print("%.2f" % (x*y))
+            logger.info("Выполнилось умножение чисел")
+        elif s == '/':
+            if y != 0:
+                print("%.2f" % (x/y))
+                logger.info("Выполнилось деление чисел")
+            else:
+                logger.error("Ошибка - деление на 0!")
+                print("Деление на ноль!")
+    else:
+        print("Этот знак не поддерживается данным калькулятором!")
+        logger.error("Ошибка ввода знака действия")
 
+if __name__ == '__main__':
+    logger = logging.getLogger("Calculate")
+    Calculate()
 
-def is_weak_password(password: str, words: str) -> bool:
-    password = password.lower()
-    result = re.findall("\D{4,}", password)
-    for word in result:
-        if word in words:
-            return True
-    return False
+### Задание 2
+import logging
+import sys
 
+def CreateLogger(name):
+    logger = logging.getLogger(name)
+    handler = logging.StreamHandler(stream=sys.stdout)
+    formatter = logging.Formatter("%(levelname)s | %(name)s | %(asctime)s | %(lineno)s | %(message)s")
+    handler.setFormatter(formatter)
+    logger.setLevel("DEBUG")
+    logger.addHandler(handler)
+    return logger
 
-def input_and_check_password() -> bool:
-    logger.debug("Начало input_and_check_password")
-    password: str = getpass.getpass()
+def Calculate():
+    s = input("Знак (+,-,*,/): ")
+    logger.info(f"Считан знак операции: {s}")
+    if s in ('+', '-', '*', '/'):
+        x = float(input("x = "))
+        logger.info(f"Считано первое число: {x}")
+        y = float(input("y = "))
+        logger.info(f"Считано второе число: {y}")
+        if s == '+':
+            print("%.2f" % (x+y))
+            logger.info("Выполнилось сложение чисел")
+        elif s == '-':
+            print("%.2f" % (x-y))
+            logger.info("Выполнилось вычитание чисел")
+        elif s == '*':
+            print("%.2f" % (x*y))
+            logger.info("Выполнилось умножение чисел")
+        elif s == '/':
+            if y != 0:
+                print("%.2f" % (x/y))
+                logger.info("Выполнилось деление чисел")
+            else:
+                logger.error("Ошибка - деление на 0!")
+                print("Деление на ноль!")
+    else:
+        print("Этот знак не поддерживается данным калькулятором!")
+        logger.error("Ошибка ввода знака действия")
 
-    if not password:
-        logger.warning("Вы ввели пустой пароль.")
-        return False
-    elif is_weak_password(password, word_data):
-        logger.warning("Вы ввели слишком слабый пароль")
-        return False
-
-    try:
-        hasher = hashlib.md5()
-
-        hasher.update(password.encode("latin-1"))
-
-        if hasher.hexdigest() == "098f6bcd4621d373cade4e832627b4f6":
-            return True
-    except ValueError as ex:
-        logger.exception("Вы ввели некорректный символ ", exc_info=ex)
-
-    return False
-
-
-if __name__ == "__main__":
-    logging.basicConfig(level=logging.DEBUG, filename='stderr.txt', format='%(asctime)s - %(levelname)s - %(message)s', datefmt='%I:%M:%S')
-    logger.info("Вы пытаетесь аутентифицироваться в Skillbox")
-    count_number: int = 3
-    logger.info(f"У вас есть {count_number} попыток")
-
-    with open('/usr/share/dict/words', 'r') as word_file:
-        word_data = word_file.read()
-
-    while count_number > 0:
-        if input_and_check_password():
-            exit(0)
-        count_number -= 1
-
-    logger.error("Пользователь трижды ввёл не правильный пароль!")
-    exit(1)
+if __name__ == '__main__':
+    logger = CreateLogger("Calculate")
+    Calculate()
 
 ### Задание 3
-import json
 import logging
+import sys
+from customHandler import LevelHandler
 
+def CreateLogger(name):
+    logger = logging.getLogger(name)
+    handler = LevelHandler()
+    formatter = logging.Formatter("%(levelname)s | %(name)s | %(asctime)s | %(lineno)s | %(message)s")
+    handler.setFormatter(formatter)
+    logger.setLevel("DEBUG")
+    logger.addHandler(handler)
+    return logger
 
-class JsonAdapter(logging.LoggerAdapter):
-    def process(self, msg, kwargs):
-        msg = msg.replace('"', '\\"')
-        return msg, kwargs
+def Calculate():
+    s = input("Знак (+,-,*,/): ")
+    logger.info(f"Считан знак операции: {s}")
+    if s in ('+', '-', '*', '/'):
+        x = float(input("x = "))
+        logger.info(f"Считано первое число: {x}")
+        y = float(input("y = "))
+        logger.info(f"Считано второе число: {y}")
+        if s == '+':
+            print("%.2f" % (x+y))
+            logger.info("Выполнилось сложение чисел")
+        elif s == '-':
+            print("%.2f" % (x-y))
+            logger.info("Выполнилось вычитание чисел")
+        elif s == '*':
+            print("%.2f" % (x*y))
+            logger.info("Выполнилось умножение чисел")
+        elif s == '/':
+            if y != 0:
+                print("%.2f" % (x/y))
+                logger.info("Выполнилось деление чисел")
+            else:
+                logger.error("Ошибка - деление на 0!")
+                print("Деление на ноль!")
+    else:
+        print("Этот знак не поддерживается данным калькулятором!")
+        logger.error("Ошибка ввода знака действия")
 
+if __name__ == '__main__':
+    logger = CreateLogger("Calculate")
+    Calculate()
 
-if __name__ == "__main__":
-    logger = JsonAdapter(logging.getLogger(__name__))
-    logger.info('Сообщение')
-    fmtstring = "%(asctime)s - %(levelname)s - %(message)s".split(' - ')
-    fmtdct = dict()
-    fmtdct["time"] = fmtstring[0]
-    fmtdct["level"] = fmtstring[1]
-    fmtdct["message"] = fmtstring[2]
-    logging.basicConfig(level=logging.DEBUG, filename="skillbox_json_messages.log",
-                        format=json.dumps(fmtdct), datefmt='%I:%M:%S')
-    json.dumps(logger.info("test"))
-    logger.info('singlequoted')
-    logger.error('"quoted"')
-    logger.debug("another test")
-    logger.debug("""""""")
+### Задание 4
+import logging
+from dict_config import dict_config
+import logging.config
+
+def CreateLogger(name):
+    logger = logging.getLogger(name)
+    logging.config.dictConfig(dict_config)
+    return logger
+
+def Calculate():
+    s = input("Знак (+,-,*,/): ")
+    logger.info(f"Считан знак операции: {s}")
+    if s in ('+', '-', '*', '/'):
+        x = float(input("x = "))
+        logger.info(f"Считано первое число: {x}")
+        y = float(input("y = "))
+        logger.info(f"Считано второе число: {y}")
+        if s == '+':
+            print("%.2f" % (x+y))
+            logger.info("Выполнилось сложение чисел")
+        elif s == '-':
+            print("%.2f" % (x-y))
+            logger.info("Выполнилось вычитание чисел")
+        elif s == '*':
+            print("%.2f" % (x*y))
+            logger.info("Выполнилось умножение чисел")
+        elif s == '/':
+            if y != 0:
+                print("%.2f" % (x/y))
+                logger.info("Выполнилось деление чисел")
+            else:
+                logger.error("Ошибка - деление на 0!")
+                print("Деление на ноль!")
+    else:
+        print("Этот знак не поддерживается данным калькулятором!")
+        logger.error("Ошибка ввода знака действия")
+
+if __name__ == '__main__':
+    logger = CreateLogger("Calculate")
+    Calculate()
+
+### Задание 5
+import logging
+from dict_config import dict_config
+import logging.config
+
+def CreateLogger(name):
+    logger = logging.getLogger(name)
+    logging.config.dictConfig(dict_config)
+    return logger
+
+def Calculate():
+    s = input("Знак (+,-,*,/): ")
+    logger.info(f"Считан знак операции: {s}")
+    if s in ('+', '-', '*', '/'):
+        x = float(input("x = "))
+        logger.info(f"Считано первое число: {x}")
+        y = float(input("y = "))
+        logger.info(f"Считано второе число: {y}")
+        if s == '+':
+            print("%.2f" % (x+y))
+            logger.info("Выполнилось сложение чисел")
+        elif s == '-':
+            print("%.2f" % (x-y))
+            logger.info("Выполнилось вычитание чисел")
+        elif s == '*':
+            print("%.2f" % (x*y))
+            logger.info("Выполнилось умножение чисел")
+        elif s == '/':
+            if y != 0:
+                print("%.2f" % (x/y))
+                logger.info("Выполнилось деление чисел")
+            else:
+                logger.error("Ошибка - деление на 0!")
+                print("Деление на ноль!")
+    else:
+        print("Этот знак не поддерживается данным калькулятором!")
+        logger.error("Ошибка ввода знака действия")
+    Calculate()
+
+if __name__ == '__main__':
+    logger = CreateLogger("Calculate")
+    Calculate()
+
+### Задание 6
+import logging
+import sys
+
+import logging_tree
+import contextlib
+from logging_tree import printout
+
+logging.getLogger('a')
+logging.getLogger('a.b').setLevel(logging.DEBUG)
+logging.getLogger('x.c')
+
+with open("logging_tree.txt", "w") as f:
+    with contextlib.redirect_stdout(f):
+        printout()
+
+### Задание 7
+import logging
+from dict_config import dict_config
+import logging.config
+
+def CreateLogger(name):
+    logger = logging.getLogger(name)
+    logging.config.dictConfig(dict_config)
+    return logger
+
+def Calculate():
+    s = input("Знак (+,-,*,/): ")
+    logger.info(f"Считан знак операции: {s}")
+    if s in ('+', '-', '*', '/'):
+        x = float(input("x = "))
+        logger.info(f"Считано первое число: {x}")
+        y = float(input("y = "))
+        logger.info(f"Считано второе число: {y}")
+        if s == '+':
+            print("%.2f" % (x+y))
+            logger.info("Выполнилось сложение чисел")
+        elif s == '-':
+            print("%.2f" % (x-y))
+            logger.info("Выполнилось вычитание чисел")
+        elif s == '*':
+            print("%.2f" % (x*y))
+            logger.info("Выполнилось умножение чисел")
+        elif s == '/':
+            if y != 0:
+                print("%.2f" % (x/y))
+                logger.info("Выполнилось деление чисел")
+            else:
+                logger.error("Ошибка - деление на 0!")
+                print("Деление на ноль!")
+    else:
+        print("Этот знак не поддерживается данным калькулятором!")
+        logger.error("Ошибка ввода знака действия")
+        logger.info("ОШИБКА ASCII Ø∏‡°⁄·°")
+    Calculate()
+
+if __name__ == '__main__':
+    logger = CreateLogger("Calculate")
+    Calculate()
