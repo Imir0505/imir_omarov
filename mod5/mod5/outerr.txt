@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "D:\Users\tany_\Desktop\Python\4 семестр\mod5\test_hw4.py", line 8, in <module>
+    raise Exception('Hello stderr.txt')
+Exception: Hello stderr.txt
