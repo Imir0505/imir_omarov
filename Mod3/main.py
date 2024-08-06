@@ -1,35 +1,34 @@
 ###Задание 1 Хорошего дня!
-import unittest
-from freezegun import freeze_time
-from your_module import get_weekday
+from flask import Flask
+from datetime import datetime
 
-class TestWeekdayFunction(unittest.TestCase):
+app = Flask(__name__)
 
-    "2022-03-22" # Замораживаем текущую дату на 22 марта 2022 года
-    def test_get_weekday(self):
-        self.assertEqual(get_weekday(), "Вторник") # Проверяем корректность возвращаемого дня
 
-        "2022-03-23" # Замораживаем текущую дату на 23 марта 2022 года
-    def test_get_specific_weekday(self):
-        self.assertEqual(get_weekday(), "Среда") # Проверяем корректность возвращаемого дня
+def get_weekday_greeting(name: str) -> str:
+    weekdays = (
+        "понедельника",
+        "вторника",
+        "среды",
+        "четверга",
+        "пятницы",
+        "субботы",
+        "воскресенья"
+    )
+    weekday = datetime.today().weekday()
+    if weekday in [2, 4, 5]:
+        return f"Привет, {name}. Хорошей {weekdays[weekday]}!"
+    return f"Привет, {name}. Хорошего {weekdays[weekday]}!"
 
-        "2022-03-24" # Замораживаем текущую дату на 24 марта 2022 года
-    def test_get_specific_weekday(self):
-        self.assertEqual(get_weekday(),"Четверг") # Проверяем корректность возвращаемого дня
-        "2022-03-25" # Замораживаем текущую дату на 25 марта 2022 года
-    def test_get_specific_weekday(self):
-        self.assertEqual(get_weekday(),"Пятница") # Проверяем корректность возвращаемого дня
-        "2022-03-26" # Замораживаем текущую дату на 26 марта 2022 года
-    def test_get_specific_weekday(self):
-        self.assertEqual(get_weekday(),"Суббота") # Проверяем корректность возвращаемого дня
-        "2022-03-27" # Замораживаем текущую дату на 27 марта 2022 года
-    def test_get_specific_weekday(self):
-        self.assertEqual(get_weekday(),"Воскресенье") # Проверяем корректность возвращаемого дня
-        "2022-03-28" # Замораживаем текущую дату на 28 марта 2022 года
-    def test_get_specific_weekday(self):
-        self.assertEqual(get_weekday(),"Понедельник") # Проверяем корректность возвращаемого дня
+
+@app.route('/hello-world/<name>')
+def hello_world(name):
+    return get_weekday_greeting(name)
+
+print('введите http://***.*.*.*:****/hello-world/"введите любое имя"')
+
 if __name__ == '__main__':
-    unittest.main()
+    app.run(debug=True)
 
 ###Задание 2 Дешифратор
 import unittest
