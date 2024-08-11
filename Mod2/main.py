@@ -88,7 +88,7 @@ def get_weekday_greeting(name: str) -> str:
 def hello_world(name):
     return get_weekday_greeting(name)
 
-print('введите http://***.*.*.*:****/hello-world/"введите любое имя"')
+print("http://127.0.0.1:5000/hello-world/Имир")
 
 if __name__ == '__main__':
     app.run(debug=True)
@@ -96,41 +96,48 @@ if __name__ == '__main__':
 ###Задание 5
 from flask import Flask
 
-app = Flask (__name__)
+app = Flask(__name__)
+
 
 @app.route('/max_number/<path:number_string>')
-def max_number (number_string):
+def max_number(number_string):
     numbers = number_string.split('/')
+
     # Проверка на то, что все элементы являются числами
     try:
         numbers = [int(num) for num in numbers]
     except ValueError:
         return "Ошибка: переданы не числа"
-        
+
     max_num = max(numbers)
 
     return f"Максимальное переданное число: {max_num}"
+
+print('http://127.0.0.1:5000/max_number/10/2/9/1')
 
 if __name__ == '__main__':
     app.run()
 
 ###Задание 6
-from fask import Flask, request, render_template
+from flask import Flask
 import os
 
 app = Flask(__name__)
 
+
 @app.route('/preview/<int:size>/<path:relative_path>')
-def file_preview(size, relative_path):
-    # Получаем абсолютный путь до файла
+def preview(size, relative_path):
     abs_path = os.path.abspath(relative_path)
 
-    # Читаем первые size символов из файла
-    with open (abs_path, 'r') as file:
-        content = file.read(size)
-        content_size = len(content)
+    try:
+        with open(abs_path, 'r') as file:
+            content = file.read(size)
+            result_size = len(content)
+            file_info = f"<b>{abs_path}</b> {result_size}<br>"
+            return f"{file_info}\n{content}"
+    except FileNotFoundError:
+        return "Файл не найден."
 
-    return render_template('preview.html', abs_path=abs_path, content_size=content_size, content=content)
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
