@@ -85,6 +85,8 @@ def hello_world(name)
     greeting = get_weekday_greeting()
     return f"Привет, {name}. {greeting}"
 
+print('введите http://***.*.*.*:****/hello-world/"введите любое имя"')
+
 if __name__ == '__main__':
     app.run()
 
