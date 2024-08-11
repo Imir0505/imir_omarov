@@ -67,28 +67,31 @@ from datetime import datetime
 
 app = Flask(__name__)
 
-def get_weekday_greeting():
-    weekdays = {
-        0: "понедельника”,
-        1: "вторника”,
-        2: "среды",
-        3: "четверга”,
-        4: "пятницы",
-        5: "субботы",
-        6: "воскресенья"
-    }
+
+def get_weekday_greeting(name: str) -> str:
+    weekdays = (
+        "понедельника",
+        "вторника",
+        "среды",
+        "четверга",
+        "пятницы",
+        "субботы",
+        "воскресенья"
+    )
     weekday = datetime.today().weekday()
-    return f"Хорошего {weekdays.get(weekday)}!"
+    if weekday in [2, 4, 5]:
+        return f"Привет, {name}. Хорошей {weekdays[weekday]}!"
+    return f"Привет, {name}. Хорошего {weekdays[weekday]}!"
+
 
 @app.route('/hello-world/<name>')
-def hello_world(name)
-    greeting = get_weekday_greeting()
-    return f"Привет, {name}. {greeting}"
+def hello_world(name):
+    return get_weekday_greeting(name)
 
 print('введите http://***.*.*.*:****/hello-world/"введите любое имя"')
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
 
 ###Задание 5
 from flask import Flask
