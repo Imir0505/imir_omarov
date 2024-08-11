@@ -1,4 +1,4 @@
-###Задание 1 Хорошего дня!
+###Задание 1 
 from flask import Flask
 from datetime import datetime
 
@@ -30,7 +30,7 @@ print("http://127.0.0.1:5000/hello-world/%D0%98%D0%B2%D0%B0%D0%BD")
 if __name__ == '__main__':
     app.run(debug=True)
 
-###Задание 2 Дешифратор
+###Задание 2 
 import unittest
 from decoder import decode
 
