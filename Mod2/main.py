@@ -88,7 +88,7 @@ def get_weekday_greeting(name: str) -> str:
 def hello_world(name):
     return get_weekday_greeting(name)
 
-print("http://127.0.0.1:5000/hello-world/Имир")
+print("http://127.0.0.1:5000/hello-world/%D0%98%D0%B2%D0%B0%D0%BD")
 
 if __name__ == '__main__':
     app.run(debug=True)
