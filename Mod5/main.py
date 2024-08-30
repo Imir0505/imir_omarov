@@ -1,58 +1,64 @@
-### Задание 3
-class BlockErrors:
-    def __init__(self, err_types):
-        self.err_types = err_types
-
-    def __enter__(self):
-        return self.err_types
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        for i in self.err_types:
-            if exc_type == i or issubclass(exc_type, i):
-                return True
-
-if __name__ == '__main__':
-    err_types = {Exception}
-    with BlockErrors(err_types):
-        a = 1 / '0'
-    print('Выполнено без ошибок')
+###Задание 1
+import os
+import subprocess
+import time
 
 
-### Задание 4
-import sys
+def find_process_using_port(port):
+    """Возвращает PID процесса, занимающего указанный порт, или None, если процесс не найден."""
+    try:
+        # Используем netstat для поиска PID процесса, использующего порт
+        result = subprocess.check_output(f"netstat -ano | findstr :{port}", shell=True, text=True)
 
-class Redirect:
-    def __init__(self, stdout=None, stderr=None):
-        self.stdout_new = stdout
-        self.stderr_new = stderr
-        self.stdout_old = None
-        self.stderr_old = None
-
-    def __enter__(self):
-        if self.stdout_new is not None:
-            self.stdout_old = sys.stdout
-            sys.stdout = self.stdout_new
-        if self.stderr_new is not None:
-            self.stderr_old = sys.stderr
-            sys.stderr = self.stderr_new
+        # Разбираем вывод команды, чтобы найти PID процесса
+        lines = result.splitlines()
+        if lines:
+            pid = int(lines[-1].split()[-1])  # PID - последнее значение в строке
+            return pid
+        return None
+    except subprocess.CalledProcessError:
+        # Если процесс не найден, команда netstat завершится с ошибкой
+        return None
 
 
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        if self.stdout_new is not None:
-            sys.stdout = self.stdout_old
-        if self.stderr_new is not None:
-            sys.stderr = self.stderr_old
+def kill_process(pid):
+    """Завершает процесс с указанным PID."""
+    try:
+        subprocess.check_call(f"taskkill /PID {pid} /F", shell=True)
+        print(f"Процесс с PID {pid} был завершен.")
+    except subprocess.CalledProcessError as e:
+        print(f"Ошибка при завершении процесса с PID {pid}: {e}")
 
 
-if __name__ == '__main__':
-    print('Hello stdout')
-    stdout_file = open('stdout.txt', 'w')
-    stderr_file = open('stderr.txt', 'w')
+def start_server(port):
+    """Пытается запустить сервер на указанном порту."""
+    # Замените команду на ту, которая запускает ваш сервер
+    try:
+        subprocess.check_call(["python", "-m", "http.server", str(port)])
+    except subprocess.CalledProcessError as e:
+        print(f"Не удалось запустить сервер на порту {port}: {e}")
+    except KeyboardInterrupt:
+        print("Сервер остановлен пользователем.")
 
-    with Redirect(stdout=stdout_file, stderr=stderr_file):
-        print('Hello stdout.txt')
-        raise Exception('Hello stderr.txt')
 
+def start_server_on_port(port):
+    """Пытается запустить сервер на указанном порту, освобождает порт при необходимости."""
+    pid = find_process_using_port(port)
 
-    print('Hello stdout again')
-    raise Exception('Hello stderr')
+    if pid:
+        print(f"Порт {port} занят процессом с PID {pid}. Завершаем процесс...")
+        kill_process(pid)
+        time.sleep(1)  # Небольшая пауза, чтобы процесс завершился
+
+    print(f"Пробуем запустить сервер на порту {port}...")
+    start_server(port)
+
+print("http://127.0.0.1:5000")
+
+# Пример использования
+if __name__ == "__main__":
+    port = 5000  # Укажите нужный порт
+    start_server_on_port(port)
+
+###Задание 2
+
