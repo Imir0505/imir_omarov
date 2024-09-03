@@ -60,5 +60,5 @@ if __name__ == "__main__":
     port = 5000  # Укажите нужный порт
     start_server_on_port(port)
 
-###Задание 2
+
 
