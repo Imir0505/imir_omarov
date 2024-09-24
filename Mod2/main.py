@@ -1,74 +1,12 @@
-###Задание 1
-def get_summary_rss(file_path):
-    with open(file_path, 'r') as file:
-        lines = file.readlines()[1☺ # Пропускаем первую строку с заголовком
-        total_bytes = 0
-
-        for line in lines:
-            columns = line.split()
-            rss = int(columns[5]) # Получаем значение столбца rss
-
-            total_bytes += rss
-
-        units = ['б', 'кб', 'мб', 'гб']
-        unit_index = 0
-
-        while total_bytes >= 1024 and unit_index < len(units) - 1:
-            total_bytes /= 1024
-            unit_index += 1
-
-        return f"{total_bytes} {units[unit_index]}"
-
-if __name__ == "__main__":
-    file_path = "output_file.txt"
-    summary_rss = get_summary_rss(file_path)
-    print(summary_rss)
-
-###Задание 2
-def get_mean_size(data):
-    sizes = []
-    for line in data:
-        words = line.split()
-        if len(words) >= 5:
-            size = int(words[4])
-            sizes.append(size)
-
-    if sizes:
-        mean_size = sum(sizes) / len(sizes)
-        return mean_size
-
-    return 0
-
-###Задание 3
-def decrypt(cipher):
-    decrypted = []
-    i = 0
-
-    while i < len(cipher):
-        if cipher[i].isalpha():
-            decrypted.append(cipher[i])
-            i += 1
-        elif cipher[i:i+2] == '..':
-            decrypted.pop()
-            i += 2
-        else:
-            i += 1
-
-    return ''.join(decrypted)
-
-import sys
-
-for line in sys.stdin:
-    print(decrypt(line.strip()))
-
 ###Задание 4
 from flask import Flask
 from datetime import datetime
 
 app = Flask(__name__)
 
-
+"Функция принимает строку name и возвращает приветственное сообщение в зависимости от дня недели"
 def get_weekday_greeting(name: str) -> str:
+    "Кортеж weekdays содержит названия дней недели"
     weekdays = (
         "понедельника",
         "вторника",
@@ -78,12 +16,14 @@ def get_weekday_greeting(name: str) -> str:
         "субботы",
         "воскресенья"
     )
+    "Метод weekday() возвращает номер текущего дня недели"
     weekday = datetime.today().weekday()
     if weekday in [2, 4, 5]:
         return f"Привет, {name}. Хорошей {weekdays[weekday]}!"
     return f"Привет, {name}. Хорошего {weekdays[weekday]}!"
 
-
+#Декоратор связывает URL /hello-world/<name> с функцией hello_world, которая принимает параметр name. 
+#Эта функция вызывает get_weekday_greeting и возвращает полученное сообщение
 @app.route('/hello-world/<name>')
 def hello_world(name):
     return get_weekday_greeting(name)
@@ -98,13 +38,15 @@ from flask import Flask
 
 app = Flask(__name__)
 
-
+#Декоратор связывает URL /max_number/<path:number_string> с функцией max_number, которая принимает параметр number_string. 
+#Использование <path:...> позволяет передавать строки, содержащие символы /.
 @app.route('/max_number/<path:number_string>')
 def max_number(number_string):
+    "Метод split('/') разбивает строку number_string на список подстрок по символу /"
     numbers = number_string.split('/')
 
     # Проверка на то, что все элементы являются числами
-    try:
+    try: #В блоке try происходит попытка преобразовать каждую подстроку в целое число
         numbers = [int(num) for num in numbers]
     except ValueError:
         return "Ошибка: переданы не числа"
@@ -124,11 +66,13 @@ import os
 
 app = Flask(__name__)
 
-
+#Декоратор связывает URL /preview/<int:size>/<path:relative_path> с функцией preview, 
+#которая принимает два параметра: size (целое число) и relative_path (строка, представляющая относительный путь к файлу)
 @app.route('/preview/<int:size>/<path:relative_path>')
 def preview(size, relative_path):
+    #Получение абсолютного пути к файлу:
     abs_path = os.path.abspath(relative_path)
-
+    #Чтение файла:
     try:
         with open(abs_path, 'r') as file:
             content = file.read(size)
@@ -139,7 +83,8 @@ def preview(size, relative_path):
         return "Файл не найден."
 
 print("http://127.0.0.1:5000/preview/5/task2.6_file.txt")
-
+#Этот код создает веб-приложение Flask, которое позволяет пользователям запрашивать определенное количество символов из указанного файла по относительному пути. 
+#Если файл не найден, приложение возвращает соответствующее сообщение об ошибке.
 if __name__ == '__main__':
     app.run(debug=True)
 
@@ -149,11 +94,13 @@ from collections import defaultdict
 
 app = Flask(__name__)
 
+#Используется defaultdict для автоматического создания вложенных словарей:
 storage = defaultdict(lambda: defaultdict(int))
 
-
+#Этот маршрут позволяет добавлять затраты по дате и сумме:
 @app.route('/add/<date>/<int:number>')
 def add_expense(date, number):
+    #Проверка формата даты:
     try:
         year = int(date[:4])
         month = int(date[4:6])
@@ -162,13 +109,14 @@ def add_expense(date, number):
             raise ValueError
     except ValueError:
         return jsonify({'error': 'Неверный формат даты'}), 400
-
+        
+    #Добавление затрат в хранилище:
     storage[year][month] += number
     storage[year]['total'] += number
 
     return "Затраты добавлены."
 
-
+#Маршруты для расчета затрат:
 @app.route('/calculate/<int:year>')
 def calculate_year(year):
     if year in storage:
