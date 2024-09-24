@@ -1,18 +1,23 @@
 # Задача 4
+"Импорт библиотек"
 from flask import Flask
 from datetime import datetime
 
+"Создание приложения"
 app = Flask(__name__)
 
-@app.route('/get_time/now')
+"Определение маршрута"
+"декоратор, который связывает URL /get_time/now с функцией get_time."
+@app.route('/get_time/now') 
 def get_time():
     current_time = datetime.now().strftime('%H:%M:%S')  # Получаем текущее время в формате HH:MM:SS
     return f'Точное время: {current_time}'
 
 print("http://127.0.0.1:5000/get_time/now")
 
+"Запускается сервер"
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True) #Режим откладки
 
 # Задача 5
 from flask import Flask
