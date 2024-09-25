@@ -179,7 +179,6 @@ def registration():
     return render_template('registration.html', form=form)
 
 print("http://127.0.0.1:5000/registration")
-#python -m unittest test_registration.py
 
 if __name__ == '__main__':
     app.run(debug=True)
