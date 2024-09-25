@@ -4,6 +4,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, IntegerField, TextAreaField
 from wtforms.validators import InputRequired, Email, NumberRange, Optional
 
+#Здесь создается экземпляр приложения Flask и устанавливается секретный ключ, необходимый для защиты сессий и форм.
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your_secret_key'
 
@@ -41,7 +42,9 @@ class RegistrationForm(FlaskForm):
         validators=[Optional()]  # Поле необязательно для заполнения
     )
 
-
+#Этот маршрут обрабатывает как GET, так и POST запросы. 
+#Если форма прошла валидацию (то есть все поля заполнены корректно), происходит перенаправление на маршрут /success. 
+#Если нет, отображается форма регистрации.
 @app.route('/registration', methods=['GET', 'POST'])
 def registration():
     form = RegistrationForm()
@@ -51,7 +54,7 @@ def registration():
 
     return render_template('registration.html', form=form)
 
-
+#Этот маршрут просто возвращает текстовое сообщение о том, что регистрация прошла успешно.
 @app.route('/success')
 def success():
     return 'Регистрация прошла успешно!'
@@ -71,7 +74,8 @@ from typing import Optional
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
 
-# Валидатор как функция
+#Этот валидатор проверяет, что длина введенного числа находится в заданных пределах. 
+#Если длина не соответствует, генерируется ошибка валидации.
 def number_length(min_length: int, max_length: int, message: Optional[str] = None):
     def _number_length(form: FlaskForm, field: IntegerField):
         number = field.data
@@ -80,7 +84,8 @@ def number_length(min_length: int, max_length: int, message: Optional[str] = Non
                 raise ValidationError(message or f'Number must be between {min_length} and {max_length} digits long.')
     return _number_length
 
-# Валидатор как класс
+#Этот валидатор работает аналогично функциональному, но реализован как класс. 
+#Он также проверяет длину числа и генерирует ошибку валидации при несоответствии.
 class NumberLength:
     def __init__(self, min_length: int, max_length: int, message: Optional[str] = None):
         self.min_length = min_length
@@ -129,6 +134,8 @@ app = Flask(__name__)
 app.secret_key = 'your_secret_key'
 
 # Валидатор как функция
+#Функция number_length возвращает внутреннюю функцию _number_length, которая проверяет длину введенного числа.
+#Если длина числа не соответствует заданным границам, возникает ошибка валидации.
 def number_length(min_length: int, max_length: int, message: Optional[str] = None):
     def _number_length(form: FlaskForm, field: IntegerField):
         number = field.data
@@ -138,6 +145,7 @@ def number_length(min_length: int, max_length: int, message: Optional[str] = Non
     return _number_length
 
 # Валидатор как класс
+# Класс NumberLength реализует валидацию длины числа.
 class NumberLength:
     def __init__(self, min_length: int, max_length: int, message: Optional[str] = None):
         self.min_length = min_length
