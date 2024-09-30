@@ -1,3 +1,54 @@
+# Задача 1
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route('/hello_world')
+def hello_world():
+    return 'Привет, мир!'
+
+print("http://127.0.0.1:5000/hello_world")
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
+# Задача 2
+from flask import Flask
+
+app = Flask(__name__)
+
+# Глобальный список машин
+cars = ["Chevrolet", "Renault", "Ford", "Lada"]
+
+@app.route('/cars')
+def list_cars():
+    return ', '.join(cars)
+
+print("http://127.0.0.1:5000/cars")
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
+# Задача 3
+from flask import Flask
+import random
+
+app = Flask(__name__)
+
+# Список пород кошек в глобальной области видимости
+cat_breeds = ["корниш-рекс", "русская голубая", "шотландская вислоухая", "мейн-кун", "манчкин"]
+
+@app.route('/cats')
+def random_cat_breed():
+    # Выбор случайной породы из списка
+    breed = random.choice(cat_breeds)
+    return f"<h1>Случайная порода кошки: {breed}</h1>"
+
+print("http://127.0.0.1:5000/cats")
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
 # Задача 4
 "Импорт библиотек"
 from flask import Flask
@@ -39,6 +90,35 @@ def get_future_time():
 print("http://127.0.0.1:5000/get_time/future")
 
 if __name__ == '__main__':
+    app.run(debug=True)
+
+# Задача 6
+from random import choice
+from flask import Flask
+import os
+import re
+
+app = Flask(__name__)
+
+# Определяем  абсолютный путь к каталогу 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+BOOK_FILE = os.path.join(BASE_DIR, 'war_and_peace.txt')
+
+def get_words_list():
+    with open(BOOK_FILE, "r", encoding="utf-8") as file:
+        text = file.read()
+    words = re.findall(r"\b\w+\b", text)
+    return words
+
+
+WORDS_LIST = get_words_list()
+@app.route("/get_random_word")
+def get_random_word():
+    return choice(WORDS_LIST)
+
+print("http://127.0.0.1:5000/get_random_word")
+
+if __name__ == "__main__":
     app.run(debug=True)
 
 # Задача 7
