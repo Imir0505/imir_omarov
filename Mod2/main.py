@@ -25,7 +25,7 @@ def get_summary_rss(file_path: str) -> str:
 
 
 if __name__ == "__main__":
-    file_path: str = "output_file.txt"
+    file_path: str = "task2.1.txt"
     print(get_summary_rss(file_path))
 
 # Задание 4
@@ -90,13 +90,11 @@ import os
 
 app = Flask(__name__)
 
-#Декоратор связывает URL /preview/<int:size>/<path:relative_path> с функцией preview, 
-#которая принимает два параметра: size (целое число) и relative_path (строка, представляющая относительный путь к файлу)
+
 @app.route('/preview/<int:size>/<path:relative_path>')
 def preview(size, relative_path):
-    #Получение абсолютного пути к файлу:
     abs_path = os.path.abspath(relative_path)
-    #Чтение файла:
+
     try:
         with open(abs_path, 'r') as file:
             content = file.read(size)
@@ -107,8 +105,7 @@ def preview(size, relative_path):
         return "Файл не найден."
 
 print("http://127.0.0.1:5000/preview/5/task2.6_file.txt")
-#Этот код создает веб-приложение Flask, которое позволяет пользователям запрашивать определенное количество символов из указанного файла по относительному пути. 
-#Если файл не найден, приложение возвращает соответствующее сообщение об ошибке.
+
 if __name__ == '__main__':
     app.run(debug=True)
 
