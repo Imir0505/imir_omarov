@@ -115,29 +115,25 @@ from collections import defaultdict
 
 app = Flask(__name__)
 
-#Используется defaultdict для автоматического создания вложенных словарей:
 storage = defaultdict(lambda: defaultdict(int))
 
-#Этот маршрут позволяет добавлять затраты по дате и сумме:
+
 @app.route('/add/<date>/<int:number>')
 def add_expense(date, number):
-    #Проверка формата даты:
     try:
         year = int(date[:4])
         month = int(date[4:6])
-        day = int(date[6:])
         if len(date) > 8:
             raise ValueError
     except ValueError:
         return jsonify({'error': 'Неверный формат даты'}), 400
-        
-    #Добавление затрат в хранилище:
+
     storage[year][month] += number
     storage[year]['total'] += number
 
     return "Затраты добавлены."
 
-#Маршруты для расчета затрат:
+
 @app.route('/calculate/<int:year>')
 def calculate_year(year):
     if year in storage:
