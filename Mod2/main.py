@@ -1,4 +1,34 @@
-###Задание 4
+# Задание 1
+# Использование команд на Linux
+from typing import List
+
+
+def get_summary_rss(file_path: str) -> str:
+    with open(file_path, 'r') as file:
+        lines: List[str] = file.readlines()[1:]
+
+    total_bytes: int = 0
+
+    for line in lines:
+        columns: List[str] = line.split()
+        rss: int = int(columns[5])
+        total_bytes += rss
+
+    def format_bytes(bytes_: int) -> str:
+        for unit in ['Б', 'Кб', 'Мб', 'Гб']:
+            if bytes_ < 1024:
+                return f"{bytes_} {unit}"
+            bytes_ /= 1024
+        return f"{bytes_} Тб"
+
+    return format_bytes(total_bytes)
+
+
+if __name__ == "__main__":
+    file_path: str = "output_file.txt"
+    print(get_summary_rss(file_path))
+
+# Задание 4
 from flask import Flask
 from datetime import datetime
 
@@ -33,34 +63,28 @@ print("http://127.0.0.1:5000/hello-world/%D0%98%D0%B2%D0%B0%D0%BD")
 if __name__ == '__main__':
     app.run(debug=True)
 
-###Задание 5
+# Задание 5
 from flask import Flask
+from typing import List
 
 app = Flask(__name__)
 
-#Декоратор связывает URL /max_number/<path:number_string> с функцией max_number, которая принимает параметр number_string. 
-#Использование <path:...> позволяет передавать строки, содержащие символы /.
+
 @app.route('/max_number/<path:number_string>')
-def max_number(number_string):
-    "Метод split('/') разбивает строку number_string на список подстрок по символу /"
-    numbers = number_string.split('/')
+def max_number(number_string: str):
+    numbers: List[int] = [int(num) for num in number_string.split('/') if num.isdigit()]
 
-    # Проверка на то, что все элементы являются числами
-    try: #В блоке try происходит попытка преобразовать каждую подстроку в целое число
-        numbers = [int(num) for num in numbers]
-    except ValueError:
-        return "Ошибка: переданы не числа"
+    if numbers:
+        max_num: int = max(numbers)
+        return f"Максимальное число: {max_num}"
+    else:
+        return "Неверный формат чисел в запросе."
 
-    max_num = max(numbers)
-
-    return f"Максимальное переданное число: {max_num}"
-
-print('http://127.0.0.1:5000/max_number/10/2/9/1')
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
 
-###Задание 6
+# Задание 6
 from flask import Flask
 import os
 
@@ -88,7 +112,7 @@ print("http://127.0.0.1:5000/preview/5/task2.6_file.txt")
 if __name__ == '__main__':
     app.run(debug=True)
 
-###Задание 7
+# Задание 7
 from flask import Flask, jsonify
 from collections import defaultdict
 
