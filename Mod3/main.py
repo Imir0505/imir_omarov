@@ -1,75 +1,33 @@
 ###Задание 1 
-import unittest
-from freezegun import freeze_time
-from main import app
+from flask import Flask
+from datetime import datetime
+
+app = Flask(__name__)
 
 
-class TestHelloWorldEndpoint(unittest.TestCase):
+def get_weekday_greeting(name: str) -> str:
+    weekdays = (
+        "понедельника",
+        "вторника",
+        "среды",
+        "четверга",
+        "пятницы",
+        "субботы",
+        "воскресенья"
+    )
+    weekday = datetime.today().weekday()
+    if weekday in [2, 4, 5]:
+        return f"Привет, {name}. Хорошей {weekdays[weekday]}!"
+    return f"Привет, {name}. Хорошего {weekdays[weekday]}!"
 
-    def setUp(self):
-        app.config['TESTING'] = True
-        app.config['DEBUG'] = False
-        self.app = app.test_client()
-        self.base_url = '/hello-world/'
 
-    @freeze_time("2024-03-14")
-    def test_hello_world_with_name_thursday(self):
-        response = self.app.get('/hello-world/Alice')
-        text = response.data.decode()
-        self.assertEqual(response.status_code, 200)
-        self.assertIn('Привет, Alice. Хорошего четверга!', text)
+@app.route('/hello-world/<name>')
+def hello_world(name):
+    return get_weekday_greeting(name)
 
-    @freeze_time("2024-03-15")
-    def test_hello_world_with_name_friday(self):
-        response = self.app.get('/hello-world/Bob')
-        text = response.data.decode()
-        self.assertEqual(response.status_code, 200)
-        self.assertIn('Привет, Bob. Хорошей пятницы!', text)
-
-    @freeze_time("2024-03-16")
-    def test_hello_world_without_name_saturday(self):
-        response = self.app.get('/hello-world/Alex')
-        text = response.data.decode()
-        self.assertEqual(response.status_code, 200)
-        self.assertIn('Привет, Alex. Хорошей субботы!', text)
-
-    @freeze_time("2024-03-17")
-    def test_hello_world_without_name_sunday(self):
-        response = self.app.get('/hello-world/Alex')
-        text = response.data.decode()
-        self.assertEqual(response.status_code, 200)
-        self.assertIn('Привет, Alex. Хорошего воскресенья!', text)
-
-    @freeze_time("2024-03-18")
-    def test_hello_world_without_name_monday(self):
-        response = self.app.get('/hello-world/Alex')
-        text = response.data.decode()
-        self.assertEqual(response.status_code, 200)
-        self.assertIn('Привет, Alex. Хорошего понедельника!', text)
-
-    @freeze_time("2024-03-19")
-    def test_hello_world_without_name_tuesday(self):
-        response = self.app.get('/hello-world/Alex')
-        text = response.data.decode()
-        self.assertEqual(response.status_code, 200)
-        self.assertIn('Привет, Alex. Хорошего вторника!', text)
-
-    @freeze_time("2024-03-20")
-    def test_hello_world_without_name_wednesday(self):
-        response = self.app.get('/hello-world/Alex')
-        text = response.data.decode()
-        self.assertEqual(response.status_code, 200)
-        self.assertIn('Привет, Alex. Хорошей среды!', text)
-
-    @freeze_time("2024-03-20")
-    def test_hello_world_without_name_correct(self):
-        response = self.app.get('/hello-world/Хорошей среды')
-        text = response.data.decode()
-        self.assertEqual(response.status_code, 200)
-        self.assertIn('Привет, Хорошей среды. Хорошей среды!', text)
 
 if __name__ == '__main__':
-    unittest.main()
+    app.run(debug=True)
 
 ###Задание 2 
 import unittest
