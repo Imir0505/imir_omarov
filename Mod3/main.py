@@ -1,4 +1,4 @@
-###Задание 1 
+# Задание 1 
 from flask import Flask
 from datetime import datetime
 
@@ -29,43 +29,7 @@ def hello_world(name):
 if __name__ == '__main__':
     app.run(debug=True)
 
-###Задание 2 
-import unittest
-from decoder import decode
-
-class TestDecoder(unittest.TestCase):
-
-    def test_decode_empty(self):
-        with self.subTest(decoded_string=""):
-            self.assertEqual(decode(""), "")
-
-    def test_decode_single_chars(self):
-        test_cases = {
-            "abracadabra": "абра-кадабра",
-            "abra--..kadabra": "абра-кадабра",
-            "abraу...-kadabra": "абра-кадабра",
-            "abra......a.": "a",
-            "1..2.3": "23",
-            ".": ""
-        }
-        for encoded, expected in test_cases.items():
-            with self.subTest(decoded_string=encoded):
-                self.assertEqual(decode(encoded), expected)
-
-    def test_decode_multiple_chars(self):
-        test_cases = {
-            "abraa..-кадабра": "абра-кадабра",
-            "abraa..-.кадабра": "абра-кадабра",
-            "1.......................": ""
-        }
-        for encoded, expected in test_cases.items():
-            with self.subTest(decoded_string=encoded):
-                self.assertEqual(decode(encoded), expected)
-
-if __name__ == '__main__':
-    unittest.main()
-
-###Задание 3 
+# Задание 3 
 from flask import Flask, jsonify
 from collections import defaultdict
 
