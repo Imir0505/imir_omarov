@@ -1,4 +1,4 @@
-# Задача 1
+# Задание 1
 from flask import Flask
 
 app = Flask(__name__)
@@ -12,7 +12,7 @@ print("http://127.0.0.1:5000/hello_world")
 if __name__ == '__main__':
     app.run(debug=True)
 
-# Задача 2
+# Задание 2
 from flask import Flask
 
 app = Flask(__name__)
@@ -29,7 +29,7 @@ print("http://127.0.0.1:5000/cars")
 if __name__ == '__main__':
     app.run(debug=True)
 
-# Задача 3
+# Задание 3
 from flask import Flask
 import random
 
@@ -49,7 +49,7 @@ print("http://127.0.0.1:5000/cats")
 if __name__ == '__main__':
     app.run(debug=True)
 
-# Задача 4
+# Задание 4
 "Импорт библиотек"
 from flask import Flask
 from datetime import datetime
@@ -70,7 +70,7 @@ print("http://127.0.0.1:5000/get_time/now")
 if __name__ == '__main__':
     app.run(debug=True) #Режим откладки
 
-# Задача 5
+# Задание 5
 from flask import Flask
 from datetime import datetime, timedelta
 
@@ -92,7 +92,7 @@ print("http://127.0.0.1:5000/get_time/future")
 if __name__ == '__main__':
     app.run(debug=True)
 
-# Задача 6
+# Задание 6
 from random import choice
 from flask import Flask
 import os
@@ -121,7 +121,7 @@ print("http://127.0.0.1:5000/get_random_word")
 if __name__ == "__main__":
     app.run(debug=True)
 
-# Задача 7
+# Задание 7
 from flask import Flask
 
 app = Flask(__name__)
