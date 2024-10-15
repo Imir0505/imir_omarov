@@ -139,14 +139,10 @@ if __name__ == '__main__':
 
 # Задание 5
 import logging
-from dict_config import dict_config
-import logging.config
+from customHandler import setup_utils_logger
+import utils  # Этот импорт теперь используется
 
-def CreateLogger(name):
-    logger = logging.getLogger(name)
-    logging.config.dictConfig(dict_config)
-    return logger
-
+# Основной логгер для основной программы
 def Calculate():
     s = input("Знак (+,-,*,/): ")
     logger.info(f"Считан знак операции: {s}")
@@ -156,17 +152,17 @@ def Calculate():
         y = float(input("y = "))
         logger.info(f"Считано второе число: {y}")
         if s == '+':
-            print("%.2f" % (x+y))
+            print("%.2f" % (x + y))
             logger.info("Выполнилось сложение чисел")
         elif s == '-':
-            print("%.2f" % (x-y))
+            print("%.2f" % (x - y))
             logger.info("Выполнилось вычитание чисел")
         elif s == '*':
-            print("%.2f" % (x*y))
+            print("%.2f" % (x * y))
             logger.info("Выполнилось умножение чисел")
         elif s == '/':
             if y != 0:
-                print("%.2f" % (x/y))
+                print("%.2f" % (x / y))
                 logger.info("Выполнилось деление чисел")
             else:
                 logger.error("Ошибка - деление на 0!")
@@ -174,10 +170,15 @@ def Calculate():
     else:
         print("Этот знак не поддерживается данным калькулятором!")
         logger.error("Ошибка ввода знака действия")
-    Calculate()
 
 if __name__ == '__main__':
-    logger = CreateLogger("Calculate")
+    logger = logging.getLogger('main')
+    logger.setLevel(logging.INFO)
+    setup_utils_logger()  # Настройка логгера для utils
+
+    # Вызов функции из utils
+    utils.some_function()  # Логирование в модуле utils
+
     Calculate()
 
 # Задание 6
