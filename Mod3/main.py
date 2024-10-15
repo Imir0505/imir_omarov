@@ -80,7 +80,7 @@ print("http://127.0.0.1:5000/calculate/2024/7")
 if __name__ == '__main__':
     app.run(debug=True)
 
-###Задание 4
+# Задание 4
 import datetime
 
 
