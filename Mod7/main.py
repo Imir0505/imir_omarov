@@ -79,50 +79,34 @@ if __name__ == '__main__':
     Calculate()
 
 ### Задание 3
-import logging
-import sys
-from customHandler import LevelHandler
+from customHandler import create_logger, calculate_operation
 
-def CreateLogger(name):
-    logger = logging.getLogger(name)
-    handler = LevelHandler()
-    formatter = logging.Formatter("%(levelname)s | %(name)s | %(asctime)s | %(lineno)s | %(message)s")
-    handler.setFormatter(formatter)
-    logger.setLevel("DEBUG")
-    logger.addHandler(handler)
-    return logger
 
-def Calculate():
+def calculate():
+    logger.info("Запуск калькулятора")
     s = input("Знак (+,-,*,/): ")
-    logger.info(f"Считан знак операции: {s}")
+    logger.info(f"Пользователь ввел знак: {s}")
+
     if s in ('+', '-', '*', '/'):
-        x = float(input("x = "))
-        logger.info(f"Считано первое число: {x}")
-        y = float(input("y = "))
-        logger.info(f"Считано второе число: {y}")
-        if s == '+':
-            print("%.2f" % (x+y))
-            logger.info("Выполнилось сложение чисел")
-        elif s == '-':
-            print("%.2f" % (x-y))
-            logger.info("Выполнилось вычитание чисел")
-        elif s == '*':
-            print("%.2f" % (x*y))
-            logger.info("Выполнилось умножение чисел")
-        elif s == '/':
-            if y != 0:
-                print("%.2f" % (x/y))
-                logger.info("Выполнилось деление чисел")
-            else:
-                logger.error("Ошибка - деление на 0!")
-                print("Деление на ноль!")
+        try:
+            x = float(input("x = "))
+            y = float(input("y = "))
+            result = calculate_operation(s, x, y)
+            if result is not None:
+                logger.info(f"Результат: {result:.2f}")
+                print(f"Результат: {result:.2f}")
+        except ValueError as e:
+            logger.error(f"Ошибка ввода чисел: {e}")
+            print("Ошибка: необходимо ввести числа.")
     else:
+        logger.warning(f"Некорректный знак: {s}")
         print("Этот знак не поддерживается данным калькулятором!")
-        logger.error("Ошибка ввода знака действия")
+
 
 if __name__ == '__main__':
-    logger = CreateLogger("Calculate")
-    Calculate()
+    logger = create_logger('main')
+    calculate()
+
 
 ### Задание 4
 import logging
