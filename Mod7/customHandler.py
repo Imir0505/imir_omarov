@@ -46,3 +46,41 @@ def calculate_operation(s, x, y):
         logger.error(f"Некорректная операция: {s}")
         return None
 
+# Задание 4
+import logging
+import logging.config
+from dict_config import dict_config  # импортируем конфигурацию
+
+
+def create_logger(name):
+    # Применяем конфигурацию логгера через словарь
+    logging.config.dictConfig(dict_config)
+
+    # Возвращаем сконфигурированный логгер
+    logger = logging.getLogger(name)
+
+    return logger
+
+
+def calculate_operation(s, x, y):
+    logger = logging.getLogger('main')
+    logger.info(f"Начата операция: {s}, с числами {x} и {y}")
+
+    if s == '+':
+        return x + y
+    elif s == '-':
+        return x - y
+    elif s == '*':
+        return x * y
+    elif s == '/':
+        if y != 0:
+            return x / y
+        else:
+            logger.error("Попытка деления на ноль")
+            print("Деление на ноль!")
+            return None
+    else:
+        logger.error(f"Некорректная операция: {s}")
+        return None
+
+
