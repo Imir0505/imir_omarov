@@ -83,4 +83,33 @@ def calculate_operation(s, x, y):
         logger.error(f"Некорректная операция: {s}")
         return None
 
+# Задание 4
+# Чтобы проверить рjnfwb. можно сделать when=S
+import logging
+import logging.handlers
+
+
+def setup_utils_logger():
+    """ Настраивает логгер для модуля utils, пишет в utils.log только INFO и выше, хранит логи только за последние 10 часов. """
+
+    # Создаем логгер для utils
+    utils_logger = logging.getLogger('utils')
+    utils_logger.setLevel(logging.INFO)  # Устанавливаем уровень INFO и выше
+
+    # Обработчик ротации файлов по времени (каждые 10 часов)
+    handler = logging.handlers.TimedRotatingFileHandler(
+        filename='utils.log',
+        when='H',  # Ротация по часам
+        interval=10,  # Интервал ротации — 10 часов
+        backupCount=1,  # Храним только одну резервную копию
+        encoding='utf-8'
+    )
+
+    # Форматтер для логов
+    formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+    handler.setFormatter(formatter)
+
+    # Добавляем обработчик к логгеру
+    utils_logger.addHandler(handler)
+
 
