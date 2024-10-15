@@ -1,4 +1,4 @@
-### Задание 1
+# Задание 1
 import logging
 
 def Calculate():
@@ -33,7 +33,7 @@ if __name__ == '__main__':
     logger = logging.getLogger("Calculate")
     Calculate()
 
-### Задание 2
+# Задание 2
 import logging
 import sys
 
@@ -78,7 +78,7 @@ if __name__ == '__main__':
     logger = CreateLogger("Calculate")
     Calculate()
 
-### Задание 3
+# Задание 3
 from customHandler import create_logger, calculate_operation
 
 
@@ -108,7 +108,7 @@ if __name__ == '__main__':
     calculate()
 
 
-### Задание 4
+# Задание 4
 import logging
 from dict_config import dict_config
 import logging.config
@@ -150,7 +150,7 @@ if __name__ == '__main__':
     logger = CreateLogger("Calculate")
     Calculate()
 
-### Задание 5
+# Задание 5
 import logging
 from dict_config import dict_config
 import logging.config
@@ -193,7 +193,7 @@ if __name__ == '__main__':
     logger = CreateLogger("Calculate")
     Calculate()
 
-### Задание 6
+# Задание 6
 import logging
 import sys
 
