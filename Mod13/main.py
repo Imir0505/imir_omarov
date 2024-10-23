@@ -1,3 +1,4 @@
+# Задание 1
 import sqlite3
 
 sql_query = """SELECT * FROM 'table_truck_with_vaccine'
