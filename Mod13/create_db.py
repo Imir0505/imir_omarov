@@ -90,3 +90,27 @@ conn.commit()
 conn.close()
 
 print("База данных и таблица 'birds' успешно созданы.")
+
+# Задание 4
+import sqlite3
+
+# Создаем базу данных и подключаемся к ней
+conn = sqlite3.connect("homework.db")
+cursor = conn.cursor()
+
+# Создаем таблицу
+cursor.execute("""
+CREATE TABLE table_effective_manager (
+    name TEXT PRIMARY KEY,
+    salary REAL
+)
+""")
+
+# Добавляем тестовые данные
+cursor.execute("INSERT INTO table_effective_manager (name, salary) VALUES (?, ?)", ("Иван Совин", 50000))
+cursor.execute("INSERT INTO table_effective_manager (name, salary) VALUES (?, ?)", ("Сотрудник 1", 40000))
+cursor.execute("INSERT INTO table_effective_manager (name, salary) VALUES (?, ?)", ("Сотрудник 2", 45000))
+
+# Сохраняем изменения и закрываем соединение
+conn.commit()
+conn.close()
