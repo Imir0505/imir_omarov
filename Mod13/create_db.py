@@ -114,3 +114,35 @@ cursor.execute("INSERT INTO table_effective_manager (name, salary) VALUES (?, ?)
 # Сохраняем изменения и закрываем соединение
 conn.commit()
 conn.close()
+
+# Задание 5
+import sqlite3
+
+# Создаем базу данных и таблицы
+def create_database():
+    with sqlite3.connect("homework.db") as conn:
+        cursor = conn.cursor()
+
+        # Создание таблицы для команд
+        cursor.execute("""
+        CREATE TABLE IF NOT EXISTS uefa_commands (
+            command_number INTEGER PRIMARY KEY,
+            command_name TEXT NOT NULL,
+            command_country TEXT NOT NULL,
+            command_level INTEGER NOT NULL
+        );
+        """)
+
+        # Создание таблицы для результатов жеребьевки
+        cursor.execute("""
+        CREATE TABLE IF NOT EXISTS uefa_draw (
+            command_number INTEGER,
+            group_number INTEGER,
+            FOREIGN KEY(command_number) REFERENCES uefa_commands(command_number)
+        );
+        """)
+
+        print("Database and tables created successfully!")
+
+if __name__ == "__main__":
+    create_database()
