@@ -70,3 +70,23 @@ conn.commit()
 # Закрываем подключение
 conn.close()
 
+# Задание 3
+import sqlite3
+
+# Подключение к базе данных (если файла не существует, он будет создан)
+conn = sqlite3.connect('homework.db')
+cursor = conn.cursor()
+
+# Создание таблицы "birds" для записи информации о птицах
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS birds (
+    bird_name TEXT NOT NULL,
+    time TEXT NOT NULL
+)
+""")
+
+# Сохранение изменений и закрытие подключения
+conn.commit()
+conn.close()
+
+print("База данных и таблица 'birds' успешно созданы.")
